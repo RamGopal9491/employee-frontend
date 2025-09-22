@@ -1,0 +1,75 @@
+/* ============================
+   Salary History Styles
+   ============================ */
+.salary-container {
+  padding: 20px;
+  background: #f9fafb;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.salary-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+/* Topbar */
+.salary-topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+.salary-search {
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 250px;
+  background: #fff;
+  transition: all 0.3s;
+}
+
+.salary-search:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+  outline: none;
+}
+
+/* Table */
+.salary-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.salary-table thead {
+  background: #f1f5f9;
+  font-weight: bold;
+}
+
+.salary-table th,
+.salary-table td {
+  padding: 14px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.salary-table th {
+  color: #1e293b;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.salary-table tr:hover {
+  background: #f9fafb;
+  transition: background 0.3s;
+}

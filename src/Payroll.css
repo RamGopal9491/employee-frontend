@@ -1,0 +1,64 @@
+/* Existing styles */
+.payroll-container {
+  padding: 20px;
+  background: #f9fafb;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.payroll-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.payroll-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payroll-table th,
+.payroll-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.payroll-table th {
+  background: #f1f5f9;
+}
+
+.salary-input {
+  width: 100px;
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.btn-payslip {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 5px; /* add spacing between buttons */
+}
+
+.btn-payslip:hover {
+  background: #1d4ed8;
+}
+
+/* New style for Update Salary button */
+.btn-update {
+  background: #16a34a; /* green */
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-update:hover {
+  background: #15803d; /* darker green on hover */
+}

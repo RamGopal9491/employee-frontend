@@ -1,0 +1,342 @@
+/* ===== GLOBAL RESET ===== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f9fafb;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #00897b; /* teal green */
+  color: white;
+  padding: 12px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  z-index: 1000;
+}
+
+.navbar-logo {
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "Georgia", serif;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 550px; 
+ }
+
+.navbar-welcome {
+  font-size: 15px;
+}
+
+.btn-logout {
+  background: #00695c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-logout:hover {
+  background: #004d40;
+}
+
+/* ===== DASHBOARD CONTAINER ===== */
+.dashboard-container {
+  margin-top: 50px; /* same as navbar height */
+  display: flex;
+}
+
+/* ===== SIDEBAR ===== */
+.dashboard-sidebar {
+  position: fixed;
+  top: 50px; /* below navbar */
+  left: 0;
+  width: 200px;
+  height: calc(100% - 50px);
+  background-color: #1f2937;
+  padding-top: 20px;
+  color: white;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-logo {
+  font-size: 20px;  
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.sidebar-link {
+  padding: 12px 20px;
+  margin: 9px 12px;             
+  color: #00897b;; 
+  color: white;
+  text-decoration: none;
+  display: block;
+  transition: background 0.2s;
+}
+
+.sidebar-link:hover {
+  background-color: #2563eb;
+}
+
+/* ===== DASHBOARD MAIN ===== */
+.dashboard-main {
+  margin-left: 200px; /* same as sidebar */
+  padding: 20px;
+  width: calc(100% - 200px);
+}
+
+/* ===== PROFILE CARD ===== */
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+  margin-bottom: 20px;
+  transition: transform 0.2s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-3px);
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #1e40af;
+  object-fit: cover;
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #111827;
+}
+
+.profile-role {
+  color: #374151;
+  font-size: 14px;
+}
+
+.profile-dept {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* ===== ATTENDANCE ACTIONS ===== */
+.attendance-actions {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.attendance-actions h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.btn-present {
+  background: #22c55e; /* green */
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-present:hover {
+  background: #16a34a;
+}
+
+.btn-absent {
+  background: #ef4444; /* red */
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-absent:hover {
+  background: #dc2626;
+}
+
+/* ===== ATTENDANCE TABLE ===== */
+.attendance-section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+  margin-bottom: 20px;
+}
+
+.attendance-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.attendance-section th,
+.attendance-section td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.attendance-section th {
+  background-color: #1e40af;
+  color: white;
+}
+
+/* ===== DASHBOARD LINKS ===== */
+.dashboard-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.link-card {
+  background: #1e40af;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.link-card:hover {
+  background: #2563eb;
+}
+
+/* ===== DASHBOARD OVERVIEW ===== */
+.dashboard-overview {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+  margin-top: 20px;
+}
+
+.dashboard-overview h2 {
+  margin-bottom: 10px;
+  color: #1e40af;
+}
+
+.dashboard-overview ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+/* ===== EMPLOYEE TABLE ===== */
+.employee-section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+  margin-top: 20px;
+}
+
+.employee-section h2 {
+  margin-bottom: 15px;
+  color: #1e40af;
+}
+
+.employee-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.employee-section th,
+.employee-section td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.employee-section th {
+  background-color: #1e40af;
+  color: white;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-view {
+  background: #3b82f6; /* blue */
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-view:hover {
+  background: #2563eb;
+}
+
+.btn-edit {
+  background: #f59e0b; /* amber */
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-edit:hover {
+  background: #d97706;
+}
+
+.btn-delete {
+  background: #ef4444; /* red */
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-delete:hover {
+  background: #dc2626;
+}

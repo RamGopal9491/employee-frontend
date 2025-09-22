@@ -1,0 +1,121 @@
+/* Overall page */
+.ems-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar */
+.ems-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 40px;
+  background: #1e40af; /* blue */
+  color: white;
+}
+
+.ems-logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ems-logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.ems-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.ems-signin {
+  background: white;
+  color: #1e40af;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ems-signin:hover {
+  background: #f1f1f1;
+}
+
+/* Hero */
+.ems-hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.ems-subtitle {
+  color: #6b7280; /* gray */
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.ems-heading {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.ems-description {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+/* Search bar */
+.ems-searchbar {
+  display: flex;
+  gap: 10px;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.ems-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.ems-search-btn {
+  background: #1e40af;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ems-search-btn:hover {
+  background: #16359c;
+}
+
+/* Footer */
+.ems-footer {
+  padding: 12px;
+  text-align: center;
+  font-size: 12px;
+  color: #555;
+  border-top: 1px solid #eee;
+}

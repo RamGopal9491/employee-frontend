@@ -1,0 +1,114 @@
+.add-employee-container {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+  background: #f9fafb;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.add-employee-form {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 900px; /* wide form */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.add-employee-form h2 {
+  margin-bottom: 20px;
+  color: #111827;
+  text-align: left;
+}
+
+/* Two-column grid for inputs */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px 30px; /* More vertical (25px) & horizontal (30px) space */
+}
+
+.form-grid label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
+  font-size: 14px;
+}
+
+.form-grid input,
+.form-grid select {
+  width: 100%;
+  padding: 12px; /* more padding inside boxes */
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+  color: #111827;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-grid input:focus,
+.form-grid select:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Button row */
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px; /* more space between Save & Cancel */
+  margin-top: 25px;
+}
+
+.btn-save {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  font-weight: 600;
+}
+
+.btn-save:hover {
+  background: #15803d;
+  transform: translateY(-2px);
+}
+
+.btn-cancel {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  font-weight: 600;
+}
+
+.btn-cancel:hover {
+  background: #4b5563;
+  transform: translateY(-2px);
+}
+
+/* Responsive (for mobile, switch to 1 column) */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 20px; /* slightly smaller spacing on mobile */
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-buttons button {
+    width: 100%;
+  }
+}

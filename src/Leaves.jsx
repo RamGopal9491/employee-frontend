@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Leaves.css";
 
-const BASEURL = "http://localhost:8080"; 
+const BASEURL = "http://localhost:5000"; 
 
 export default function Leaves() {
   const [search, setSearch] = useState("");

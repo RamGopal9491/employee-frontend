@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Payroll.css";
 
-const BASEURL = "http://localhost:5000/api/payrolls";
+const BASEURL = "http://localhost:8080/api/payrolls";
 
 export default function Payroll() {
   const [payrolls, setPayrolls] = useState([]);

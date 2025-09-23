@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Employees.css";
 
@@ -7,7 +7,6 @@ const BASEURL = "http://localhost:8083/api/employees";
 
 export default function Employees() {
   const navigate = useNavigate();
-  const location = useLocation();
   const [employees, setEmployees] = useState([]);
   const [searchId, setSearchId] = useState("");
   const [editingId, setEditingId] = useState(null);
@@ -21,7 +20,6 @@ export default function Employees() {
     image: "",
   });
 
-  // Fetch employees
   const fetchEmployees = () => {
     axios
       .get(BASEURL)
@@ -33,19 +31,12 @@ export default function Employees() {
     fetchEmployees();
   }, []);
 
-  // Handle adding a new employee from AddEmployee.jsx
-  const handleAddEmployee = (newEmployee) => {
-    setEmployees((prev) => [...prev, newEmployee]);
-  };
-
-  // Delete employee
   const handleDelete = (id) => {
     axios.delete(`${BASEURL}/${id}`).then(() => {
       setEmployees((prev) => prev.filter((emp) => emp.id !== id));
     });
   };
 
-  // Edit employee
   const handleEdit = (emp) => {
     setEditingId(emp.id);
     setEditData(emp);
@@ -93,12 +84,7 @@ export default function Employees() {
           value={searchId}
           onChange={(e) => setSearchId(e.target.value)}
         />
-        <button
-          className="btn-add-new"
-          onClick={() =>
-            navigate("/addemployee", { state: { onAddEmployee: handleAddEmployee } })
-          }
-        >
+        <button className="btn-add-new" onClick={() => navigate("/addemployee")}>
           Add New Employee
         </button>
       </div>
@@ -123,33 +109,20 @@ export default function Employees() {
                 <td>{emp.department}</td>
                 <td>
                   <div style={{ display: "flex", gap: "10px" }}>
-                    <button className="btn-view" onClick={() => handleView(emp)}>
-                      View
-                    </button>
-                    <button className="btn-edit" onClick={() => handleEdit(emp)}>
-                      Edit
-                    </button>
-                    <button
-                      className="btn-delete"
-                      onClick={() => handleDelete(emp.id)}
-                    >
-                      Delete
-                    </button>
+                    <button className="btn-view" onClick={() => handleView(emp)}>View</button>
+                    <button className="btn-edit" onClick={() => handleEdit(emp)}>Edit</button>
+                    <button className="btn-delete" onClick={() => handleDelete(emp.id)}>Delete</button>
                   </div>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="5" style={{ textAlign: "center" }}>
-                No employee found
-              </td>
+              <td colSpan="5" style={{ textAlign: "center" }}>No employee found</td>
             </tr>
           )}
         </tbody>
       </table>
-
-      {/* View and Edit modals remain unchanged */}
     </div>
   );
 }

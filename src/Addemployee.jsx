@@ -5,7 +5,7 @@ import "./AddEmployee.css";
 
 const BASEURL = "http://localhost:8083/api/addemployees";
 
-export default function AddEmployee() {
+export default function AddEmployee({ onAddEmployee }) {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -21,21 +21,24 @@ export default function AddEmployee() {
     password: "",
   });
 
-  // handle input change
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // handle form submit
+  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      // API Call to backend
-      await axios.post(BASEURL, formData);
+      const res = await axios.post(BASEURL, formData);
 
       alert("Employee added successfully!");
+
+      // Call callback to update list in Employees.jsx
+      if (onAddEmployee) onAddEmployee(res.data);
+
+      // Navigate back to employee list
       navigate("/employees");
     } catch (error) {
       console.error("Error adding employee:", error);
@@ -49,26 +52,52 @@ export default function AddEmployee() {
         <h2>Add New Employee</h2>
 
         <div className="form-grid">
-          {/* Same input fields as before */}
           <div>
             <label>Name</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div>
             <label>Email</label>
-            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div>
             <label>Employee ID</label>
-            <input type="text" name="id" value={formData.id} onChange={handleChange} required />
+            <input
+              type="text"
+              name="id"
+              value={formData.id}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div>
             <label>Date of Birth</label>
-            <input type="date" name="dob" value={formData.dob} onChange={handleChange} />
+            <input
+              type="date"
+              name="dob"
+              value={formData.dob}
+              onChange={handleChange}
+            />
           </div>
           <div>
             <label>Gender</label>
-            <select name="gender" value={formData.gender} onChange={handleChange}>
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+            >
               <option>Male</option>
               <option>Female</option>
               <option>Other</option>
@@ -76,7 +105,11 @@ export default function AddEmployee() {
           </div>
           <div>
             <label>Marital Status</label>
-            <select name="maritalStatus" value={formData.maritalStatus} onChange={handleChange}>
+            <select
+              name="maritalStatus"
+              value={formData.maritalStatus}
+              onChange={handleChange}
+            >
               <option>Single</option>
               <option>Married</option>
               <option>Divorced</option>
@@ -84,11 +117,20 @@ export default function AddEmployee() {
           </div>
           <div>
             <label>Designation</label>
-            <input type="text" name="designation" value={formData.designation} onChange={handleChange} />
+            <input
+              type="text"
+              name="designation"
+              value={formData.designation}
+              onChange={handleChange}
+            />
           </div>
           <div>
             <label>Department</label>
-            <select name="department" value={formData.department} onChange={handleChange}>
+            <select
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+            >
               <option value="">Select Department</option>
               <option>IT</option>
               <option>HR</option>
@@ -98,17 +140,35 @@ export default function AddEmployee() {
           </div>
           <div>
             <label>Salary</label>
-            <input type="number" name="salary" value={formData.salary} onChange={handleChange} />
+            <input
+              type="number"
+              name="salary"
+              value={formData.salary}
+              onChange={handleChange}
+            />
           </div>
           <div>
             <label>Password</label>
-            <input type="password" name="password" value={formData.password} onChange={handleChange} />
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
           </div>
         </div>
 
         <div className="form-buttons">
-          <button type="submit" className="btn-save">Save</button>
-          <button type="button" className="btn-cancel" onClick={() => navigate("/employees")}>Cancel</button>
+          <button type="submit" className="btn-save">
+            Save
+          </button>
+          <button
+            type="button"
+            className="btn-cancel"
+            onClick={() => navigate("/employees")}
+          >
+            Cancel
+          </button>
         </div>
       </form>
     </div>

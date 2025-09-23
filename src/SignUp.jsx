@@ -4,7 +4,7 @@ import axios from "axios";
 import "./Auth.css";
 
 // Base API URL
-export const BASEURL = "http://localhost:8080/";
+export const BASEURL = "http://localhost:8083/";
 
 export default function SignUp() {
   const navigate = useNavigate();

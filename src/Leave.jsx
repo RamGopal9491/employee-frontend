@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Leave.css";
 
-const BASEURL = "http://localhost:8080/";
+const BASEURL = "http://localhost:8083/";
 
 export default function Leave() {
   const [leaveList, setLeaveList] = useState([]);
@@ -20,7 +20,7 @@ export default function Leave() {
     // console.log("first")
   const fetchLeaves = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/leaves/emp/");
+      const res = await axios.get("http://localhost:8083/api/leaves/emp/");
       setLeaveList(res.data);
     } catch (err) {
       console.error("Error fetching leaves:", err);

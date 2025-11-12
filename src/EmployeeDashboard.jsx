@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { useAttendance } from "./AttendanceContext";
 import "./EmployeeDashboard.css";
 
 import {
@@ -12,20 +11,11 @@ import {
 } from "react-icons/fa";
 
 export default function EmployeeDashboard() {
-  const { markAttendance } = useAttendance();
   const navigate = useNavigate();
   const location = useLocation();
 
   // ✅ Get employee name/email from router state
   const employeeName = location.state?.name || "Employee";
-
-  const handlePresent = () => {
-    markAttendance(1, employeeName, "Present");
-  };
-
-  const handleAbsent = () => {
-    markAttendance(1, employeeName, "Absent");
-  };
 
   // ✅ Logout handler
   const handleLogout = () => {
@@ -83,16 +73,7 @@ export default function EmployeeDashboard() {
             </div>
           </section>
 
-          {/* Attendance Buttons */}
-          <section className="attendance-actions">
-            <h3>Mark Your Attendance</h3>
-            <button onClick={handlePresent} className="btn-present">
-              Present
-            </button>
-            <button onClick={handleAbsent} className="btn-absent">
-              Absent
-            </button>
-          </section>
+          {/* ✅ Removed Attendance Section */}
 
           {/* Dashboard Quick Links */}
           <section className="dashboard-overview">

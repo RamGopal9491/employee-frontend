@@ -12,9 +12,10 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("employee");
 
-  // ✅ handleSubmit with API call
+  // ✅ role is fixed, no dropdown
+  const role = "employee";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -24,7 +25,7 @@ export default function SignUp() {
     }
 
     try {
-      const newUser = { fullname:fullName, email, password, role };
+      const newUser = { fullname: fullName, email, password, role };
       const response = await axios.post(`${BASEURL}users/signup`, newUser);
 
       if (response.status === 200 || response.status === 201) {
@@ -35,6 +36,7 @@ export default function SignUp() {
       }
     } catch (error) {
       console.error("Signup error:", error);
+
       if (error.response?.status === 409) {
         alert("User already exists! Please sign in.");
       } else {
@@ -55,6 +57,7 @@ export default function SignUp() {
           onChange={(e) => setFullName(e.target.value)}
           required
         />
+
         <input
           type="email"
           placeholder="Email"
@@ -63,14 +66,9 @@ export default function SignUp() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <select
-          className="auth-input"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        >
-          <option value="admin">Admin</option>
-          <option value="employee">Employee</option>
-        </select>
+
+        {/* ✅ Removed dropdown */}
+
         <input
           type="password"
           placeholder="Password"
@@ -79,6 +77,7 @@ export default function SignUp() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+
         <input
           type="password"
           placeholder="Confirm Password"
@@ -90,6 +89,7 @@ export default function SignUp() {
 
         <button type="submit" className="auth-btn">Sign Up</button>
       </form>
+
       <p className="auth-footer">
         Already have an account? <Link to="/signin">Sign In</Link>
       </p>

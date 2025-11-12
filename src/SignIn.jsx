@@ -9,32 +9,26 @@ export default function SignIn() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("employee"); // default role
   const [error, setError] = useState("");
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!role) {
-      setError("Please select a role");
-      return;
-    }
-
     try {
       const res = await axios.post(`${BASEURL}users/signin`, {
         email,
         password,
-        role,
       });
 
       if (res.status === 200 && res.data) {
-        // Store token and user info
+        // Save token and user info
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
-        // Navigate based on role
-        const userRole = res.data.user.role || role; // fallback to selected role
+        // Navigate based on backend role
+        const userRole = res.data.user.role;
+
         if (userRole === "admin") {
           navigate("/admin-dashboard");
         } else if (userRole === "employee") {
@@ -47,7 +41,7 @@ export default function SignIn() {
       }
     } catch (err) {
       console.error("SignIn Error:", err);
-      setError("Error during sign in. Check credentials or server.");
+      setError("Error during sign-in. Check credentials or server.");
     }
   };
 
@@ -73,20 +67,8 @@ export default function SignIn() {
           required
         />
 
-        {/* Role Selection */}
-        <select
-          className="auth-input"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          required
-        >
-          <option value="" disabled>
-            Select Role
-          </option>
-          <option value="admin">Admin</option>
-          <option value="employee">Employee</option>
-        </select>
-
+        {/* ✅ Removed Role Dropdown */}
+        
         <button type="submit" className="auth-btn">
           Sign In
         </button>

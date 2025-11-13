@@ -17,8 +17,9 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 50px;
+  height: 40px;
   z-index: 1000;
+
 }
 
 .navbar-logo {
@@ -102,7 +103,6 @@ body {
 
 /* ===== DASHBOARD MAIN ===== */
 .dashboard-main {
-  margin-left: 200px; /* same as sidebar */
   padding: 20px;
   width: calc(100% - 200px);
 }

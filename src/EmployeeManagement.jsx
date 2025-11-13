@@ -8,7 +8,7 @@ export default function EmployeeManagement() {
   return (
     <div className="ems-container">
       {/* Navbar */}
-      <header className="ems-header">
+      {/* <header className="ems-header">
         <div className="ems-logo-section">
           <span className="ems-logo">EMS</span>
           <h1 className="ems-title">Employee Management System</h1>
@@ -18,7 +18,7 @@ export default function EmployeeManagement() {
             <span className="ems-icon">👤</span> Sign In
           </button>
         </div>
-      </header>
+      </header> */}
 
       {/* Hero Section */}
       <main className="ems-hero">

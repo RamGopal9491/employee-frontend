@@ -1,33 +1,44 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Profile.css";
 
 export default function Profile() {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    department: "IT",
-    photo: null,
-  });
+  const storedProfile = JSON.parse(localStorage.getItem("user"));
+  const [profile, setProfile] = useState(storedProfile);
+  const [showPopup, setShowPopup] = useState(false);
 
-  const [showPopup, setShowPopup] = useState(false); // for popup state
+  // ✅ Convert image file → Base64
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfile({ ...profile, photo: reader.result }); // base64 string
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setShowPopup(true); // show success popup
+    try {
+      const response = await axios.put(
+        `http://localhost:8083/users/${profile.empid}`,
+        profile
+      );
+      localStorage.setItem("user", JSON.stringify(response.data)); // update local storage
+      setShowPopup(true);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile");
+    }
   };
 
   const handleOk = () => {
     setShowPopup(false);
-    navigate("/employee-dashboard"); // redirect to employee dashboard
-  };
-
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfile({ ...profile, photo: URL.createObjectURL(file) });
-    }
+    navigate("/employee-dashboard");
   };
 
   return (
@@ -52,8 +63,8 @@ export default function Profile() {
         <label>Name</label>
         <input
           type="text"
-          value={profile.name}
-          onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+          value={profile.fullname}
+          onChange={(e) => setProfile({ ...profile, fullname: e.target.value })}
         />
 
         <label>Email</label>

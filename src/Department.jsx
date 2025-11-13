@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Department.css";
 
-const BASEURL = "http://localhost:8080/api/departments";
+const BASEURL = "http://localhost:8083/api/departments";
 
 export default function Department() {
   const [departments, setDepartments] = useState([]);
@@ -11,49 +11,40 @@ export default function Department() {
   const [newDept, setNewDept] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Predefined department options for dropdown
-  const predefinedDepartments = [
-    "IT",
-    "Database",
-    "Logistic",
-    "HR",
-    "Finance",
-    "Marketing",
-  ];
-
-  // ✅ Fetch departments from backend
+  // ✅ Fetch departments
   useEffect(() => {
+    fetchDepartments();
+  }, []);
+
+  const fetchDepartments = () => {
     axios
       .get(BASEURL)
       .then((res) => setDepartments(res.data))
       .catch((err) => console.error("Error fetching departments:", err));
-  }, []);
+  };
 
   // ✅ Add or Update Department
   const handleAddDepartment = () => {
     if (!newDept.trim()) return;
 
     if (editingDept) {
-      // Update
+      // Update department
       axios
         .put(`${BASEURL}/${editingDept.id}`, { name: newDept })
         .then((res) => {
-          setDepartments(
-            departments.map((d) => (d.id === editingDept.id ? res.data : d))
+          setDepartments((prev) =>
+            prev.map((d) => (d.id === editingDept.id ? res.data : d))
           );
-          setEditingDept(null);
-          setNewDept("");
-          setIsModalOpen(false);
+          resetModal();
         })
         .catch((err) => console.error("Error updating department:", err));
     } else {
-      // Create
+      // Create new department
       axios
         .post(BASEURL, { name: newDept })
         .then((res) => {
-          setDepartments([...departments, res.data]);
-          setNewDept("");
-          setIsModalOpen(false);
+          setDepartments((prev) => [...prev, res.data]);
+          resetModal();
         })
         .catch((err) => console.error("Error creating department:", err));
     }
@@ -63,9 +54,7 @@ export default function Department() {
   const handleDelete = (id) => {
     axios
       .delete(`${BASEURL}/${id}`)
-      .then(() => {
-        setDepartments(departments.filter((d) => d.id !== id));
-      })
+      .then(() => setDepartments((prev) => prev.filter((d) => d.id !== id)))
       .catch((err) => console.error("Error deleting department:", err));
   };
 
@@ -76,7 +65,14 @@ export default function Department() {
     setIsModalOpen(true);
   };
 
-  // ✅ Search filter
+  // ✅ Reset modal state
+  const resetModal = () => {
+    setEditingDept(null);
+    setNewDept("");
+    setIsModalOpen(false);
+  };
+
+  // ✅ Filtered list
   const filteredDepartments = search
     ? departments.filter((d) =>
         d.name.toLowerCase().includes(search.toLowerCase())
@@ -124,10 +120,7 @@ export default function Department() {
                 <td>{index + 1}</td>
                 <td>{dept.name}</td>
                 <td>
-                  <button
-                    className="btn-edit"
-                    onClick={() => handleEdit(dept)}
-                  >
+                  <button className="btn-edit" onClick={() => handleEdit(dept)}>
                     Edit
                   </button>
                   <button
@@ -149,34 +142,27 @@ export default function Department() {
         </tbody>
       </table>
 
-      {/* Modal for Add/Edit */}
+      {/* ✅ Modal for Add/Edit */}
       {isModalOpen && (
         <div className="modal-overlay">
-          <div className="modal-content">
+          <div className="modal-content" onMouseDown={(e) => e.stopPropagation()}>
             <h3>{editingDept ? "Edit Department" : "Add New Department"}</h3>
 
-            {/* Dropdown instead of input */}
-            <select
+            {/* ✅ Input field bound to state */}
+            <input
+              type="text"
+              placeholder="Enter Department Name"
               value={newDept}
               onChange={(e) => setNewDept(e.target.value)}
               className="modal-input"
-            >
-              <option value="">-- Select Department --</option>
-              {predefinedDepartments.map((dept, index) => (
-                <option key={index} value={dept}>
-                  {dept}
-                </option>
-              ))}
-            </select>
+              autoFocus
+            />
 
             <div className="modal-buttons">
               <button className="btn-save" onClick={handleAddDepartment}>
                 {editingDept ? "Update" : "Save"}
               </button>
-              <button
-                className="btn-cancel"
-                onClick={() => setIsModalOpen(false)}
-              >
+              <button className="btn-cancel" onClick={resetModal}>
                 Cancel
               </button>
             </div>

@@ -1,42 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./Salary.css";
 
-export default function Salary() {
-  const [search, setSearch] = useState("");
-  const [salaryList] = useState([
-    {
-      sno: 1,
-      empName: "John Doe",   
-      salary: 600,
-      allowance: 50,
-      deduction: 30,
-      total: 620,
-      payDate: "2024-09-15",
-    },
-    {
-      sno: 2,
-      empName: "Michael Lee", 
-      salary: 700,
-      allowance: 60,
-      deduction: 40,
-      total: 720,
-      payDate: "2024-09-20",
-    },
-  ]);
+const BASEURL = "http://localhost:8083/api/payrolls";
 
-  // ✅ filter safely
+export default function Salary() {
+  const [salaryList, setSalaryList] = useState([]);
+  const [search, setSearch] = useState("");
+  const user = JSON.parse(localStorage.getItem("user")); // contains empid
+
+  const fetchSalary = async () => {
+    if (!user?.empid) return;
+    try {
+      const res = await axios.get(`${BASEURL}/emp/id/${user.empid}`);
+      setSalaryList(res.data);
+    } catch (err) {
+      console.error("Error fetching salary:", err);
+      alert("Failed to load salary details");
+    }
+  };
+
+  useEffect(() => {
+    fetchSalary();
+  }, []);
+
   const filteredSalaries = salaryList.filter((s) =>
-    s.empName.toLowerCase().includes(search.toLowerCase())
+    s.name?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="salary-container">
-      <h2 className="salary-title">Salary History</h2>
+      <h2 className="salary-title">My Salary Details</h2>
 
       <div className="salary-topbar">
         <input
           type="text"
-          placeholder="Search By Emp Name"
+          placeholder="Search By Name"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="salary-search"
@@ -46,32 +45,28 @@ export default function Salary() {
       <table className="salary-table">
         <thead>
           <tr>
-            <th>SNO</th>
-            <th>EMP NAME</th>
-            <th>SALARY</th>
-            <th>ALLOWANCE</th>
-            <th>DEDUCTION</th>
-            <th>TOTAL</th>
-            <th>PAY DATE</th>
+            <th>#</th>
+            <th>Emp ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Salary (₹)</th>
           </tr>
         </thead>
         <tbody>
           {filteredSalaries.length > 0 ? (
-            filteredSalaries.map((s) => (
-              <tr key={s.sno}>
-                <td>{s.sno}</td>
-                <td>{s.empName}</td>
-                <td>{s.salary}</td>
-                <td>{s.allowance}</td>
-                <td>{s.deduction}</td>
-                <td>{s.total}</td>
-                <td>{new Date(s.payDate).toLocaleDateString()}</td>
+            filteredSalaries.map((s, index) => (
+              <tr key={s.id}>
+                <td>{index + 1}</td>
+                <td>{s.empid}</td>
+                <td>{s.name}</td>
+                <td>{s.department}</td>
+                <td>{s.salary.toLocaleString()}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="7" style={{ textAlign: "center" }}>
-                No matching records found.
+              <td colSpan="5" style={{ textAlign: "center" }}>
+                No salary records found.
               </td>
             </tr>
           )}

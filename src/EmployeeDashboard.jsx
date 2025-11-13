@@ -1,7 +1,6 @@
-import React from "react";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./EmployeeDashboard.css";
-
 import {
   FaTachometerAlt,
   FaUserEdit,
@@ -11,73 +10,46 @@ import {
 } from "react-icons/fa";
 
 export default function EmployeeDashboard() {
+
   const navigate = useNavigate();
   const location = useLocation();
-
-  // ✅ Get employee name/email from router state
+useEffect(() => {
+    // if no user, redirect to signin
+    if (!user) {
+      navigate("/signin");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const user = JSON.parse(localStorage.getItem("user"));
   const employeeName = location.state?.name || "Employee";
 
-  // ✅ Logout handler
   const handleLogout = () => {
+    localStorage.removeItem("user");
     navigate("/signin");
   };
 
   return (
     <div className="dashboard-wrapper">
-      {/* ✅ Top Navbar */}
-      <header className="navbar">
-        <h1 className="navbar-logo">Employee MS</h1>
-        <div className="navbar-right">
-          <span className="navbar-center">Welcome, {employeeName}</span>
-          <button className="btn-logout" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      </header>
-
       <div className="dashboard-container">
-        {/* Sidebar */}
-        <aside className="dashboard-sidebar">
-          <nav className="sidebar-nav">
-            <NavLink to="/" className="sidebar-link">
-              <FaTachometerAlt className="sidebar-icon" /> Dashboard
-            </NavLink>
-            <NavLink to="/profile" className="sidebar-link">
-              <FaUserEdit className="sidebar-icon" /> Update Info
-            </NavLink>
-            <NavLink to="/leave" className="sidebar-link">
-              <FaCalendarAlt className="sidebar-icon" /> Apply Leave
-            </NavLink>
-            <NavLink to="/payslips" className="sidebar-link">
-              <FaFileInvoiceDollar className="sidebar-icon" /> Payslips
-            </NavLink>
-            <NavLink to="/salary" className="sidebar-link">
-              <FaMoneyBillWave className="sidebar-icon" /> Salary
-            </NavLink>
-          </nav>
-        </aside>
-
         {/* Main Content */}
         <main className="dashboard-main">
-          {/* Employee Profile */}
+          {/* ✅ Employee Profile Card */}
           <section className="profile-card">
             <img
-              src="https://via.placeholder.com/80"
+              src={user?.photo || "https://via.placeholder.com/80"}
               alt="Employee"
               className="profile-avatar"
             />
             <div>
-              <h3 className="profile-name">{employeeName}</h3>
+              <h3 className="profile-name">{user?.fullname}</h3>
               <p className="profile-role">Software Engineer</p>
-              <p className="profile-dept">Department: IT</p>
+              <p className="profile-dept">Department: {user?.department}</p>
             </div>
           </section>
 
-          {/* ✅ Removed Attendance Section */}
-
-          {/* Dashboard Quick Links */}
+          {/* Dashboard Overview */}
           <section className="dashboard-overview">
-            <h2>Welcome to Your Dashboard</h2>
+            <h2>Welcome, {user?.fullname || employeeName}!</h2>
             <p>Here you can:</p>
             <ul>
               <li>💰 View and download your payslips</li>

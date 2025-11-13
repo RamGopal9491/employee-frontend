@@ -483,3 +483,123 @@ body {
     transform: scale(1);
   }
 }
+/* ===== UNIFIED MODAL STYLES (replace duplicated modal blocks) ===== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0; /* shorthand for top/right/bottom/left: 0 */
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px; /* keep some space on small screens */
+}
+
+/* Modal box */
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 480px;
+  max-width: 100%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  animation: modalFadeIn 180ms ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Title */
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  text-align: center;
+}
+
+/* Body: use column layout on narrow screens, row on wide */
+.modal-body {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Optional photo area (if you use it) */
+.employee-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid #e6eef7;
+  flex: 0 0 120px;
+}
+
+/* Info column grows to fill remaining space */
+.modal-info {
+  flex: 1 1 200px;
+  min-width: 120px;
+}
+
+/* Make each info paragraph consistent */
+.modal-info p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+/* Actions: right aligned, with gap and consistent button styling */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end; /* change to center if you prefer centered actions */
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* Buttons inside modal - consistent size */
+.accept-btn,
+.reject-btn {
+  min-width: 96px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+/* Accept / Reject colors */
+.accept-btn {
+  background: #16a34a;
+  color: #fff;
+}
+.accept-btn:hover { filter: brightness(0.95); }
+
+.reject-btn {
+  background: #dc2626;
+  color: #fff;
+}
+.reject-btn:hover { filter: brightness(0.95); }
+
+/* Small screens: stack content vertically and stretch actions */
+@media (max-width: 520px) {
+  .modal-content {
+    padding: 16px;
+  }
+  .modal-body {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .modal-actions {
+    justify-content: center; /* center actions on small screens (optional) */
+    width: 100%;
+  }
+  .accept-btn,
+  .reject-btn { width: 48%; min-width: 0; }
+}
+
+/* Unified fade animation */
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-8px) scale(0.995); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}

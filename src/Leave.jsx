@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Leave.css";
 
-const BASEURL = "http://localhost:8083/";
+const BASEURL = "http://localhost:8083/api/leaves";
 
 export default function Leave() {
   const [leaveList, setLeaveList] = useState([]);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [leaveData, setLeaveData] = useState({
-    empId: "", 
+    empId: "",
     name: "",
     dept: "",
     type: "",
@@ -17,11 +17,29 @@ export default function Leave() {
     to: "",
     description: "",
   });
-    // console.log("first")
-  const fetchLeaves = async () => {
+
+  // read logged in user (adjust key names to whatever you store in localStorage)
+  const user = JSON.parse(localStorage.getItem("user")); // e.g. { empId, name, department }
+
+  // Fetch leaves for logged-in user and normalize backend shape
+  const fetchLeaves = async (empId) => {
     try {
-      const res = await axios.get("http://localhost:8083/api/leaves/emp/");
-      setLeaveList(res.data);
+      const res = await axios.get(`${BASEURL}/emp/${empId}`);
+      // backend returns array of leaves with nested `user` object
+      const normalized = (res.data || []).map((l) => ({
+        leaveId: l.leaveId || l.id,
+        empId: l.user?.empid ?? l.user?.empId ?? empId,
+        name: l.user?.fullname ?? l.user?.name ?? leaveData.name,
+        dept: l.user?.department ?? l.user?.dept ?? leaveData.dept,
+        type: l.type,
+        startDate: l.startDate,
+        endDate: l.endDate,
+        days: l.days,
+        reason: l.reason,
+        status: l.status ?? "Pending",
+        appliedDate: l.appliedDate ?? l.appliedDate, // use as-is if present
+      }));
+      setLeaveList(normalized);
     } catch (err) {
       console.error("Error fetching leaves:", err);
       alert("Failed to load leave records");
@@ -29,14 +47,24 @@ export default function Leave() {
   };
 
   useEffect(() => {
-    fetchLeaves();
-    // eslint-disable-next-line
-  }, []);
+    if (user && (user.empId || user.empid)) {
+      const emp = user.empId ?? user.empid;
+      // initialize leaveData based on logged-in user
+      setLeaveData((prev) => ({
+        ...prev,
+        empId: emp,
+        name: user.name ?? user.fullname ?? prev.name,
+        dept: user.department ?? user.dept ?? prev.dept,
+      }));
+      fetchLeaves(emp);
+    }
+    // intentionally only on mount / when local user changes in storage
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // keep empty to run once on mount
 
-  // ✅ Handle form submit
+  // Apply Leave
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const start = new Date(leaveData.from);
       const end = new Date(leaveData.to);
@@ -46,56 +74,66 @@ export default function Leave() {
         return;
       }
 
-      const days = (end - start) / (1000 * 60 * 60 * 24) + 1;
+      const days = Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
 
       const newLeave = {
+        // match your backend expected payload keys (you used reason/startDate/endDate/days)
         empId: leaveData.empId,
-        name: leaveData.name,
-        dept: leaveData.dept,
         type: leaveData.type,
         reason: leaveData.description,
         startDate: leaveData.from,
         endDate: leaveData.to,
         days: days,
-        appliedDate: new Date().toISOString().split("T")[0],
-        status: "Pending",
       };
 
       const res = await axios.post(BASEURL, newLeave);
 
       if (res.status === 200 || res.status === 201) {
         alert("Leave applied successfully!");
-        fetchLeaves();
-        // Reset form
-        setLeaveData({
-          ...leaveData,
+        // refresh leaves for this employee
+        fetchLeaves(leaveData.empId);
+        setShowForm(false);
+        setLeaveData((prev) => ({
+          ...prev,
           type: "",
           from: "",
           to: "",
           description: "",
-        });
-        setShowForm(false);
-      } else {
-        alert("Failed to apply leave. Please try again.");
+        }));
       }
     } catch (err) {
       console.error("Error applying leave:", err);
-      alert("Error while applying leave");
+      alert("Failed to apply leave");
     }
   };
 
-  // ✅ Filter leaves by status
+  // filter by status text in search box
   const filteredLeaves = leaveList.filter((leave) =>
-    leave.status
-      ? leave.status.toLowerCase().includes(search.toLowerCase())
+    search.trim()
+      ? (leave.status ?? "")
+          .toString()
+          .toLowerCase()
+          .includes(search.toLowerCase())
       : true
   );
+
+  // helper to present YYYY-MM-DD or ISO to user-friendly date
+  const fmtDate = (d) => {
+    if (!d) return "";
+    // if already YYYY-MM-DD, new Date(...) will create local midnight - that's ok for display
+    try {
+      const dt = new Date(d);
+      if (isNaN(dt.getTime())) return d;
+      return dt.toLocaleDateString();
+    } catch {
+      return d;
+    }
+  };
 
   return (
     <div className="leave-container">
       <h2 className="leave-title">My Leaves</h2>
 
-      {/* Top bar */}
       <div className="leave-topbar">
         <input
           type="text"
@@ -109,11 +147,10 @@ export default function Leave() {
         </button>
       </div>
 
-      {/* Leave table */}
       <table className="leave-table">
         <thead>
           <tr>
-            <th>SNO</th>
+            <th>S.No</th>
             <th>Leave Type</th>
             <th>From</th>
             <th>To</th>
@@ -126,20 +163,20 @@ export default function Leave() {
         <tbody>
           {filteredLeaves.length > 0 ? (
             filteredLeaves.map((leave, index) => (
-              <tr key={leave.id || index}>
+              <tr key={leave.leaveId || index}>
                 <td>{index + 1}</td>
                 <td>{leave.type}</td>
-                <td>{leave.startDate}</td>
-                <td>{leave.endDate}</td>
+                <td>{fmtDate(leave.startDate)}</td>
+                <td>{fmtDate(leave.endDate)}</td>
                 <td>{leave.days}</td>
                 <td>{leave.reason}</td>
-                <td>{leave.appliedDate}</td>
+                <td>{fmtDate(leave.appliedDate)}</td>
                 <td>
                   <span
                     className={
-                      leave.status === "Approved"
+                      (leave.status || "").toLowerCase() === "approved"
                         ? "status-approved"
-                        : leave.status === "Rejected"
+                        : (leave.status || "").toLowerCase() === "rejected"
                         ? "status-rejected"
                         : "status-pending"
                     }
@@ -159,7 +196,6 @@ export default function Leave() {
         </tbody>
       </table>
 
-      {/* Apply Leave Form */}
       {showForm && (
         <div className="leave-form-overlay">
           <div className="leave-form-popup">
@@ -169,7 +205,7 @@ export default function Leave() {
               <select
                 value={leaveData.type}
                 onChange={(e) =>
-                  setLeaveData({ ...leaveData, type: e.target.value })
+                  setLeaveData((prev) => ({ ...prev, type: e.target.value }))
                 }
                 required
               >
@@ -184,7 +220,7 @@ export default function Leave() {
                 type="date"
                 value={leaveData.from}
                 onChange={(e) =>
-                  setLeaveData({ ...leaveData, from: e.target.value })
+                  setLeaveData((prev) => ({ ...prev, from: e.target.value }))
                 }
                 required
               />
@@ -194,7 +230,7 @@ export default function Leave() {
                 type="date"
                 value={leaveData.to}
                 onChange={(e) =>
-                  setLeaveData({ ...leaveData, to: e.target.value })
+                  setLeaveData((prev) => ({ ...prev, to: e.target.value }))
                 }
                 required
               />
@@ -204,7 +240,10 @@ export default function Leave() {
                 rows="3"
                 value={leaveData.description}
                 onChange={(e) =>
-                  setLeaveData({ ...leaveData, description: e.target.value })
+                  setLeaveData((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
                 }
               ></textarea>
 

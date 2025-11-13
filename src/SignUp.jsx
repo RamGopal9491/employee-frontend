@@ -47,6 +47,8 @@ export default function SignUp() {
 
   return (
     <div className="auth-container">
+          <div className="auth-banner">Employee Management System</div>
+
       <h2 className="auth-title">Sign Up</h2>
       <form className="auth-form" onSubmit={handleSubmit}>
         <input
@@ -96,3 +98,4 @@ export default function SignUp() {
     </div>
   );
 }
+

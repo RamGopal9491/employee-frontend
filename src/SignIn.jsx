@@ -45,9 +45,12 @@ export default function SignIn() {
     }
   };
 
-  return (
+ return (
+  <div className="auth-page">
+    <div className="auth-banner">Employee Management System</div>
+
     <div className="auth-container">
-      <h2 className="auth-title">Sign In</h2>
+      <h2 className="auth-title">Login</h2>
       <form className="auth-form" onSubmit={handleSignIn}>
         <input
           type="email"
@@ -67,8 +70,6 @@ export default function SignIn() {
           required
         />
 
-        {/* ✅ Removed Role Dropdown */}
-        
         <button type="submit" className="auth-btn">
           Sign In
         </button>
@@ -80,5 +81,7 @@ export default function SignIn() {
         Don’t have an account? <Link to="/signup">Sign Up</Link>
       </p>
     </div>
-  );
+  </div>
+);
+
 }

@@ -4,6 +4,8 @@ import axios from "axios";
 import "./Profile.css";
 
 export default function Profile() {
+  const API_URL= import.meta.env.VITE_API_URL
+
   const navigate = useNavigate();
   const storedProfile = JSON.parse(localStorage.getItem("user"));
   const [profile, setProfile] = useState(storedProfile);
@@ -25,7 +27,7 @@ export default function Profile() {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:8083/users/${profile.empid}`,
+        `${API_URL}/users/${profile.empid}`,
         profile
       );
       localStorage.setItem("user", JSON.stringify(response.data)); // update local storage

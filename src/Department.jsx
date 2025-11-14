@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Department.css";
 
 const BASEURL = "http://localhost:8083/api/departments";
+const API_URL=import.meta.env.VITE_API_URL
 
 export default function Department() {
   const [departments, setDepartments] = useState([]);
@@ -18,7 +19,7 @@ export default function Department() {
 
   const fetchDepartments = () => {
     axios
-      .get(BASEURL)
+      .get(`${API_URL}/api/departments`)
       .then((res) => setDepartments(res.data))
       .catch((err) => console.error("Error fetching departments:", err));
   };

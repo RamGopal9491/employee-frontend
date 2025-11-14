@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Leave.css";
 
-const BASEURL = "http://localhost:8083/api/leaves";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Leave() {
+  
   const [leaveList, setLeaveList] = useState([]);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -24,7 +25,7 @@ export default function Leave() {
   // Fetch leaves for logged-in user and normalize backend shape
   const fetchLeaves = async (empId) => {
     try {
-      const res = await axios.get(`${BASEURL}/emp/${empId}`);
+      const res = await axios.get(`${API_URL}/api/leaves/emp/${empId}`);
       // backend returns array of leaves with nested `user` object
       const normalized = (res.data || []).map((l) => ({
         leaveId: l.leaveId || l.id,
@@ -86,7 +87,7 @@ export default function Leave() {
         days: days,
       };
 
-      const res = await axios.post(BASEURL, newLeave);
+      const res = await axios.post(`${API_URL}/api/leaves`, newLeave);
 
       if (res.status === 200 || res.status === 201) {
         alert("Leave applied successfully!");

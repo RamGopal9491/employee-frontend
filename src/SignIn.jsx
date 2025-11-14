@@ -6,6 +6,8 @@ import "./Auth.css";
 export const BASEURL = "http://localhost:8083/";
 
 export default function SignIn() {
+  const API_URL=import.meta.env.VITE_API_URL
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +18,7 @@ export default function SignIn() {
     setError("");
 
     try {
-      const res = await axios.post(`${BASEURL}users/signin`, {
+      const res = await axios.post(`${API_URL}/users/signin`, {
         email,
         password,
       });

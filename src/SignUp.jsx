@@ -7,6 +7,7 @@ import "./Auth.css";
 export const BASEURL = "http://localhost:8083/";
 
 export default function SignUp() {
+  const API_URL= import.meta.env.VITE_API_URL
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,7 +27,7 @@ export default function SignUp() {
 
     try {
       const newUser = { fullname: fullName, email, password, role };
-      const response = await axios.post(`${BASEURL}users/signup`, newUser);
+      const response = await axios.post(`${API_URL}/users/signup`, newUser);
 
       if (response.status === 200 || response.status === 201) {
         alert("Account created successfully!");

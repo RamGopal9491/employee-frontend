@@ -4,9 +4,10 @@ import axios from "axios";
 import "./Dashboard.css";
 
 export default function Dashboard() {
-  const API_BASE = "http://localhost:8083/users";
+  const API_BASE = "`http://localhost:8083/users";
   const DEPT_API = "http://localhost:8083/api/departments";
   const LEAVE_API = "http://localhost:8083/api/leaves";
+  const API_URL=import.meta.env.VITE_API_URL
 
   const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
@@ -21,7 +22,7 @@ export default function Dashboard() {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/getAllUsers`);
+      const res = await axios.get(`${API_URL}/users/getAllUsers`);
       setEmployees(res.data || []);
     } catch (err) {
       console.error("Error fetching employees:", err);
@@ -30,7 +31,7 @@ export default function Dashboard() {
 
   const fetchDepartments = async () => {
     try {
-      const res = await axios.get(`${DEPT_API}`);
+      const res = await axios.get(`${API_URL}/api/departments`);
       setDepartments(res.data || []);
     } catch (err) {
       console.error("Error fetching departments:", err);
@@ -40,7 +41,7 @@ export default function Dashboard() {
   const fetchLeaves = async () => {
     try {
       const today = new Date().toISOString().split("T")[0];
-      const res = await axios.get(`${LEAVE_API}`);
+      const res = await axios.get(`${API_URL}/api/leaves`);
       const allLeaves = res.data || [];
 
       const todayLeaves = allLeaves.filter(

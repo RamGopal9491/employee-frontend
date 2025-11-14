@@ -4,7 +4,7 @@ import axios from "axios";
 
 const API_BASE = "http://localhost:8083/users";
 const DEPT_API = "http://localhost:8083/api/departments";
-
+const API_URL=import.meta.env.VITE_API_URL
 export default function Employees() {
   const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
@@ -29,7 +29,7 @@ export default function Employees() {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/getAllUsers`);
+      const res = await axios.get(`${API_URL}/users/getAllUsers`);
       setEmployees(res.data || []);
     } catch (err) {
       console.error("Error fetching employees:", err);
@@ -38,7 +38,7 @@ export default function Employees() {
 
   const fetchDepartments = async () => {
     try {
-      const res = await axios.get(DEPT_API);
+      const res = await axios.get(`${API_URL}/api/departments`);
       setDepartments(res.data || []);
     } catch (err) {
       console.error("Error fetching departments:", err);
@@ -82,7 +82,7 @@ export default function Employees() {
   const handleSave = async () => {
     try {
       const id = editingEmp.empid ?? editingEmp.id;
-      const res = await axios.put(`${API_BASE}/${id}`, editData);
+      const res = await axios.put(`${API_URL}/users/${id}`, editData);
       const updated = res.data || { ...editingEmp, ...editData };
       setEmployees((prev) =>
         prev.map((e) => ((e.empid ?? e.id) === id ? updated : e))
@@ -97,7 +97,7 @@ export default function Employees() {
   const handleDelete = async (emp) => {
     try {
       const id = emp.empid ?? emp.id;
-      await axios.delete(`${API_BASE}/${id}`);
+      await axios.delete(`${API_URL}/users/${id}`);
       setEmployees((prev) => prev.filter((e) => (e.empid ?? e.id) !== id));
     } catch (err) {
       console.error("Delete failed:", err);

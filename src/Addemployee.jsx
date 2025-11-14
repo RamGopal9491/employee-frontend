@@ -5,6 +5,7 @@ import "./AddEmployee.css";
 
 const SIGNUP_URL = "http://localhost:8083/users/signup";
 const DEPT_API = "http://localhost:8083/api/departments";
+const API_URL=import.meta.env.VITE_API_URL
 
 export default function AddEmployee() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function AddEmployee() {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const res = await axios.get(DEPT_API);
+        const res = await axios.get(`${API_URL}/api/departments`);
         setDepartments(res.data || []);
       } catch (err) {
         console.error("Error fetching departments:", err);
@@ -62,7 +63,7 @@ export default function AddEmployee() {
     };
 
     try {
-      const res = await axios.post(SIGNUP_URL, payload);
+      const res = await axios.post(`${API_URL}/users/signup`, payload);
       // controller returns a ResponseEntity -> check message or status
       alert("✅ User added successfully!");
       navigate("/employees");

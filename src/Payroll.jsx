@@ -5,10 +5,10 @@ const BASEURL = "http://localhost:8083/api/payrolls";
 
 export default function Payroll() {
   const [payrolls, setPayrolls] = useState([]);
-
+  const API_URL=import.meta.env.VITE_API_URL;
   // Fetch payroll data from backend
   useEffect(() => {
-    fetch(BASEURL)
+    fetch(`${API_URL}/api/payrolls`)
       .then((res) => res.json())
       .then((data) => setPayrolls(data))
       .catch((err) => console.error(err));
@@ -23,7 +23,7 @@ export default function Payroll() {
 
   // Update salary in backend
   const handleUpdateSalary = (p) => {
-    fetch(`${BASEURL}/${p.id}/salary`, {
+    fetch(`${API_URL}/api/payrolls/${p.id}/salary`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ salary: p.salary }),

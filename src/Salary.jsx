@@ -5,6 +5,7 @@ import "./Salary.css";
 const BASEURL = "http://localhost:8083/api/payrolls";
 
 export default function Salary() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [salaryList, setSalaryList] = useState([]);
   const [search, setSearch] = useState("");
   const user = JSON.parse(localStorage.getItem("user")); // contains empid
@@ -12,7 +13,7 @@ export default function Salary() {
   const fetchSalary = async () => {
     if (!user?.empid) return;
     try {
-      const res = await axios.get(`${BASEURL}/emp/id/${user.empid}`);
+      const res = await axios.get(`${API_URL}/api/payrolls/emp/id/${user.empid}`);
       setSalaryList(res.data);
     } catch (err) {
       console.error("Error fetching salary:", err);

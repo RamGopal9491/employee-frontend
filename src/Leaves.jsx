@@ -49,6 +49,7 @@ export default function Leaves() {
   const [loading, setLoading] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [error, setError] = useState(null);
+  const API_URL=import.meta.env.VITE_API_URL
 
   useEffect(() => {
     fetchLeaves();
@@ -58,7 +59,7 @@ export default function Leaves() {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.get(`${BASEURL}/api/leaves`);
+      const res = await axios.get(`${API_URL}/api/leaves`);
       const rawData = Array.isArray(res.data) ? res.data : [];
       const normalized = rawData.map(normalizeLeave);
       setLeaves(normalized);
@@ -99,7 +100,7 @@ export default function Leaves() {
     const actionPath = action === "approve" ? "approve" : "reject";
     try {
       // Your backend methods don't require a body; send empty PUT.
-      await axios.put(`${BASEURL}/api/leaves/${encodeURIComponent(id)}/${actionPath}`);
+      await axios.put(`${API_URL}/api/leaves/${encodeURIComponent(id)}/${actionPath}`);
 
       // Refresh and close modal
       await fetchLeaves();

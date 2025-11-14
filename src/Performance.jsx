@@ -4,13 +4,14 @@ import "./Performance.css";
 
 export default function Performance() {
   const BASEURL = "http://localhost:8083/";
+  const API_URL = import.meta.env.VITE_API_URL
 
   const [employees, setEmployees] = useState([]);
 
   // ✅ Fetch employee performance data from backend
   useEffect(() => {
     axios
-      .get(`${BASEURL}api/performance`)
+      .get(`${API_URL}/api/performance`)
       .then((res) => setEmployees(res.data))
       .catch((err) => console.error("Error fetching performance data:", err));
   }, []);
@@ -34,7 +35,7 @@ export default function Performance() {
   // ✅ Save performance to backend
   const handleSave = (emp) => {
     axios
-      .put(`${BASEURL}api/performance/${emp.id}`, emp)
+      .put(`${API_URL}/api/performance/${emp.id}`, emp)
       .then(() => alert("Performance updated successfully!"))
       .catch((err) => console.error("Error saving performance:", err));
   };

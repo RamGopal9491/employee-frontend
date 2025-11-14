@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./AddEmployee.css";
+import "./Addemployee.css";
 
 const SIGNUP_URL = "http://localhost:8083/users/signup";
 const DEPT_API = "http://localhost:8083/api/departments";

@@ -1,5 +1,5 @@
 # -------- Stage 1: Build with Vite --------
-FROM node:24 AS builder
+FROM node:20 AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
